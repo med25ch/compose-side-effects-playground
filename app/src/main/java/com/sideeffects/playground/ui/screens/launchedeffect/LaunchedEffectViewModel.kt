@@ -33,8 +33,10 @@ class LaunchedEffectViewModel @Inject constructor() : ViewModel() {
     private var timerJob: Job? = null
 
     fun changeUser(newId: Int) {
-        addLog("User ID changed to $newId — LaunchedEffect will restart")
-        _uiState.update { it.copy(userId = newId, loadState = LoadState.Loading) }
+        if (_uiState.value.userId != newId) {
+            addLog("User ID changed to $newId — LaunchedEffect will restart")
+            _uiState.update { it.copy(userId = newId, loadState = LoadState.Loading) }
+        }
     }
 
     fun loadUserData(userId: Int) {
